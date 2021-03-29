@@ -28,7 +28,9 @@
 	Statement stmt = conn.createStatement();
 	
 	// 4단계 - SQL 실행
-	String sql = "INSERT INTO `MEMBER` VALUES('"+uid+"', '"+name+"', '"+hp+"', '"+pos+"', '"+dep+"', NOW());";
+	String sql = "INSERT INTO `MEMBER` VALUES"
+		+"('"+uid+"', '"+name+"', '"+hp+"', "
+		+"'"+pos+"', '"+dep+"', NOW());";
 	stmt.executeUpdate(sql);
 	
 	// 5단계 - 실행 결과 처리(SELECT일 경우)
