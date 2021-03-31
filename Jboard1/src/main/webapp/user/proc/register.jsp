@@ -1,3 +1,4 @@
+<%@page import="kr.co.jboard1.config.DBConfig"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="java.sql.DriverManager"%>
@@ -18,17 +19,9 @@
 	String addr2 = request.getParameter("addr2");
 	String regip = request.getRemoteAddr();
 	
-	// 데이터베이스 처리 1 ~ 6 단계
-	String host = "jdbc:mysql://192.168.10.114:3306/keh";
-	String user = "keh";
-	String pass = "1234";
-	
-	// 1단계 - JDBC 드라이버 로드
-	Class.forName("com.mysql.jdbc.Driver");
-	
-	// 2단계 - 데이터베이스 접속
-	Connection conn = DriverManager.getConnection(host, user, pass);
-	
+	// 1, 2단계
+	Connection conn = DBConfig.getInstance().getConnection();	
+
 	// 3단계 - SQL 실행 객체 생성
 	Statement stmt = conn.createStatement();
 	

@@ -25,10 +25,7 @@ $(document).ready(function(){  // 줄여서 $(function(){});로 씀
 			alert('이름은 한글 2~10자까지 입력하십시오.');
 			return false;
 		}
-		
 		// 별명 중복확인
-
-		alert('폼 전송 안 됨');
-		return false;
+		return true;
 	});
 });
