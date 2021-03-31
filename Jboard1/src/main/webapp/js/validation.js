@@ -26,6 +26,8 @@ $(document).ready(function(){  // 줄여서 $(function(){});로 씀
 			return false;
 		}
 		// 별명 중복확인
+		// 이메일 중복확인
+		// 휴대폰 중복확인
 		return true;
 	});
 });

@@ -1,3 +1,5 @@
+<%@page import="kr.co.jboard1.dao.ArticleDao"%>
+<%@page import="java.sql.Statement"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="kr.co.jboard1.bean.ArticleBean"%>
 <%@page import="java.util.List"%>
@@ -17,43 +19,22 @@
 		return; // 프로그램 종료
 	}
 	
-	// 1,2단계
-	Connection conn = DBConfig.getInstance().getConnection();
+	// 전송 데이터 수신
+	String pg = request.getParameter("pg");
 	
-	// 3단계
-	String sql  = "SELECT a.*, b.nick FROM `JBOARD_ARTICLE` AS a ";
-	       sql += "JOIN `JBOARD_USER` AS b ON a.uid = b.uid;";
-	       
-	PreparedStatement psmt = conn.prepareStatement(sql);
+	// 페이지 관련 변수
+	ArticleDao dao  = ArticleDao.getInstance();
 	
-	// 4단계
-	ResultSet rs = psmt.executeQuery();
+	int total       = dao.selectCountArticle();
+	int lastPageNum = dao.getLastPageNum(total);
+	int currentPage = dao.getCurrentPage(pg);
+	int start       = dao.getLimitStart(currentPage); // limit용 start 변수
+	int[] groups    = dao.getPageGroup(currentPage, lastPageNum);
 	
-	// 5단계
-	List<ArticleBean> articles = new ArrayList<>();
 	
-	while(rs.next()){
-		ArticleBean ab = new ArticleBean();
-		ab.setSeq(rs.getInt(1));
-		ab.setParent(rs.getInt(2));
-		ab.setComment(rs.getInt(3));
-		ab.setCate(rs.getString(4));
-		ab.setTitle(rs.getString(5));
-		ab.setContent(rs.getString(6));
-		ab.setFile(rs.getInt(7));
-		ab.setHit(rs.getInt(8));
-		ab.setUid(rs.getString(9));
-		ab.setRegip(rs.getString(10));
-		ab.setRdate(rs.getString(11));
-		ab.setNick(rs.getString(12));
-		
-		articles.add(ab);
-	}
+	// 데이터베이스 처리
+	List<ArticleBean> articles = dao.selectArticles(start);
 	
-	// 6단계
-	rs.close();
-	psmt.close();
-	conn.close();
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -94,11 +75,19 @@
 
             <!-- 페이지 네비게이션 -->
             <div class="paging">
-                <a href="#" class="prev">이전</a>
-                <a href="#" class="num current">1</a>                
-                <a href="#" class="num">2</a>                
-                <a href="#" class="num">3</a>                
-                <a href="#" class="next">다음</a>
+            	
+            	<% if(groups[0] > 1){ %>
+                <a href="/Jboard1/list.jsp?pg=<%= groups[0] - 1 %>" class="prev">이전</a>
+                <% } %>
+                
+                <% for(int i=groups[0] ; i<=groups[1] ; i++){ %>
+                	<a href="/Jboard1/list.jsp?pg=<%= i %>" class="num <%= (currentPage == i) ? "current":"off" %>"><%= i %></a>                
+                <% } %>
+                
+                <% if(groups[1] < lastPageNum){ %>
+                <a href="/Jboard1/list.jsp?pg=<%= groups[1] + 1 %>" class="next">다음</a>
+                <% } %>
+                
             </div>
 
             <!-- 글쓰기 버튼 -->
