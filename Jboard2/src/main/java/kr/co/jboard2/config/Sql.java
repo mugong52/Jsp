@@ -5,6 +5,11 @@ public class Sql {
 	// User 관련
 	public static final String SELECT_TERMS = "SELECT * FROM `JBOARD_TERMS`;";
 	
+	public static final String SELECT_COUNT_USER = "SELECT COUNT(`uid`) FROM `JBOARD_USER` WHERE `uid`=?;";
+	public static final String SELECT_COUNT_NICK = "SELECT COUNT(`nick`) FROM `JBOARD_USER` WHERE `nick`=?;";
+	public static final String SELECT_COUNT_EMAIL = "SELECT COUNT(`email`) FROM `JBOARD_USER` WHERE `email`=?;";
+	public static final String SELECT_COUNT_HP = "SELECT COUNT(`hp`) FROM `JBOARD_USER` WHERE `hp`=?;";
+	
 	public static final String SELECT_USER  = "SELECT * FROM `JBOARD_USER` WHERE `uid`=? AND `pass`=PASSWORD(?);";
 	public static final String INSERT_USER  = "INSERT INTO `JBOARD_USER` SET "
 											   + "`uid`=?,"
