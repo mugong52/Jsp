@@ -2,7 +2,7 @@ package kr.co.farmstory1.config;
 
 public class Sql {
 	
-	// User ê´?? ¨
+	// User °ü·Ã
 	public static final String SELECT_TERMS = "SELECT * FROM `JBOARD_TERMS`;";
 	
 	public static final String SELECT_USER  = "SELECT * FROM `JBOARD_USER` WHERE `uid`=? AND `pass`=PASSWORD(?);";
@@ -19,7 +19,10 @@ public class Sql {
 											   + "`regip`=?,"
 											   + "`rdate`=NOW();";
 	
-	// Article ê´?? ¨
+	// Article °ü·Ã
+	public static final String SELECT_ARTICLE_LATEST = "(SELECT * FROM `JBOARD_ARTICLE` WHERE `cate`='grow' ORDER BY `seq` DESC LIMIT 5) UNION "
+													 + "(SELECT * FROM `JBOARD_ARTICLE` WHERE `cate`='school' ORDER BY `seq` DESC LIMIT 5) UNION "
+													 + "(SELECT * FROM `JBOARD_ARTICLE` WHERE `cate`='story' ORDER BY `seq` DESC LIMIT 5);";
 	public static final String SELECT_COUNT_ARTICLE = "SELECT COUNT(*) FROM `JBOARD_ARTICLE` WHERE `parent`=0;";
 	public static final String SELECT_MAX_SEQ = "SELECT MAX(`seq`) FROM `JBOARD_ARTICLE` WHERE `parent`=0;";
 	
@@ -31,9 +34,8 @@ public class Sql {
 	public static final String SELECT_ARTICLES = "SELECT a.*, b.nick FROM `JBOARD_ARTICLE` AS a "
 												+ "JOIN `JBOARD_USER` AS b "
 												+ "ON a.uid = b.uid "
-												+ "WHERE `parent`=0 "
-												+ "ORDER BY `seq` DESC "
-												+ "LIMIT ?, 10";
+												+ "WHERE `parent`=0 AND `cate`=? "
+												+ "ORDER BY `seq` DESC;";
 	
 	public static final String SELECT_COMMENTS = "SELECT a.*, b.nick FROM `JBOARD_ARTICLE` AS a "
 												+ "JOIN `JBOARD_USER` AS b "
@@ -43,9 +45,9 @@ public class Sql {
 	
 
 	public static final String INSERT_ARTICLE = "INSERT INTO `JBOARD_ARTICLE` SET "
+												+ "`cate`=?, "
 												+ "`title`=?, "
 												+ "`content`=?, "
-												+ "`file`=?, "
 												+ "`uid`=?, "
 												+ "`regip`=?, "
 												+ "`rdate`=NOW();";
