@@ -10,7 +10,7 @@ $(document).ready(function(){  // 줄여서 $(function(){});로 씀
 		}
 		// 아이디 영어여부 확인
 		if(!isUidEngOk){
-			alert('아이디는 영문 소문자이어야 합니다.\n아이디를 다시 입력하세요.');
+			alert('아이디는 영문소문자, 숫자 조합 4~10자이어야 합니다.\n아이디를 다시 입력하세요.');
 			return false;
 		}
 		
